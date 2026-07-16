@@ -1,6 +1,6 @@
 # advpl-specialist
 
-![Version](https://img.shields.io/badge/version-1.3.0-blue)
+![Version](https://img.shields.io/badge/version-1.3.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Claude%20Code-blueviolet)
 ![TOTVS](https://img.shields.io/badge/TOTVS-Protheus-orange)
@@ -303,6 +303,12 @@ Para casos nao cobertos localmente, o plugin busca no TDN (TOTVS Developer Netwo
 ## Contribuindo
 
 Contribuicoes sao bem-vindas! Leia o [CONTRIBUTING.md](CONTRIBUTING.md) para saber como participar.
+
+### Contribuidores
+
+Obrigado a quem contribui com o projeto:
+
+- **Henrique Patriota** ([@suportem3](https://github.com/suportem3), M3 Case) — referencia FWMSPrinter para relatorios PDF por coordenadas ([PR #12](https://github.com/thalysjuvenal/advpl-specialist/pull/12)) e referencia de pontos de entrada em rotinas MVC ([PR #13](https://github.com/thalysjuvenal/advpl-specialist/pull/13)).
 
 ## Changelog
 
