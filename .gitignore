@@ -23,3 +23,6 @@ linkedin-post.txt
 # Screenshots
 *.png
 !documentation/public/og-image.png
+
+# Superpowers SDD scratch
+/.superpowers/
