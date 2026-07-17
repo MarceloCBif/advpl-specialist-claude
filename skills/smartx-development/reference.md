@@ -171,7 +171,7 @@ O MVC clássico (ModelDef/ViewDef/MenuDef) continua sendo a base sobre a qual ro
 
 ## Estado da Documentação
 
-A documentação oficial do Smart X no TDN é ativa e vem evoluindo — a própria página "Construindo uma Rotina CRUD do Zero com SmartX" lista pré-requisitos de versão explícitos (Protheus P12 release **12.1.2510** ou superior) e remete a diversos guias complementares ainda em expansão:
+A documentação oficial do Smart X no TDN é ativa e vem evoluindo — a própria página "Construindo uma Rotina CRUD do Zero com SmartX" lista pré-requisitos de versão explícitos (Protheus P12 release **12.1.2510** ou superior; essa versão refere-se ao desenvolvimento de rotinas Smart X nativas — a conversão de browse legado via `SetSmartX` e o campo Valid Smart X do dicionário exigem 12.1.2610, ver `patterns-launcher-browse.md` e `patterns-model.md`) e remete a diversos guias complementares ainda em expansão:
 
 - Configurando a Interface
 - Trabalhando com Formulários: Campos e Propriedades

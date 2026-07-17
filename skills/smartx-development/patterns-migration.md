@@ -200,6 +200,7 @@ Os PEs Smart X (`formPre`, `formPos`, `beforeCommit`, `beforeCommitInTransaction
 | Pesquisa por índice (lupa) | Faz | Não faz | Usar Filtro Avançado; busca rápida passa a ser em memória |
 | `AxCadastro` | Faz | Não faz (2610) | Não migrar — manter fonte legado |
 | Tree (`FWTree`) | Faz | Não faz (2610) | Não migrar — manter fonte legado |
+| `SetFields` | Faz | Não faz | Crítico — migrar para o dicionário de dados |
 
 - **Valide release e RPO antes de iniciar**: ambientes produtivos exigem a partir da Release 12.1.2610; desenvolvimento interno exige RPO D-1. Migrar sem essa validação pode gerar exceção em tempo de execução.
 - **Condicione toda ativação com `hasSmartX()`** — tanto na conversão incremental do browse quanto em qualquer lógica que precise se comportar de forma diferente em ambientes que ainda não atendem aos pré-requisitos do Smart X.
