@@ -1,6 +1,6 @@
 # advpl-specialist
 
-![Version](https://img.shields.io/badge/version-1.3.1-blue)
+![Version](https://img.shields.io/badge/version-1.4.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Claude%20Code-blueviolet)
 ![TOTVS](https://img.shields.io/badge/TOTVS-Protheus-orange)
@@ -124,6 +124,7 @@ Para uma experiencia completa, recomendamos instalar o plugin oficial **superpow
 | `/advpl-specialist:changelog` | Gerar changelog formatado a partir do git diff |
 | `/advpl-specialist:sxgen` | Gerar scripts de dicionario SX a partir de descricao em linguagem natural |
 | `/advpl-specialist:advpr` | Gerar scripts de automacao de testes ADVPR (Advanced Protheus Robot) - TestSuite/TestGroup/TestCase para MVC, ExecAuto, relatorios, processamento, webservice, Smart View, TOTVS Message e SmartLink |
+| `/advpl-specialist:smartx` | Gerar ou migrar rotinas Smart X (telas web modernas a partir de metadados) - modelo, interface e launcher TLPP; conversao de mBrowse/FWMBrowse/MVC para Smart X |
 
 ### Exemplos
 
@@ -163,6 +164,9 @@ Para uma experiencia completa, recomendamos instalar o plugin oficial **superpow
 
 # Gerar script de teste ADVPR para rotina MVC
 /advpl-specialist:advpr --type mvc "incluir prospect TMKA260"
+
+# Gerar rotina Smart X (modelo + interface + launcher)
+/advpl-specialist:smartx --mode generate "cadastro de produtos SB1"
 ```
 
 ## Exemplos
@@ -205,6 +209,7 @@ Os agents e commands carregam automaticamente bases de conhecimento internas (`s
 | `advpl-code-review` | 24 regras de revisao de codigo (boas praticas, performance, seguranca, modernizacao) |
 | `probat-testing` | Framework ProBat para testes unitarios TLPP (annotations, assertions, patterns) |
 | `advpr-test-automation` | Automacao de testes ADVPR (FWTestHelper): TestSuite/Group/Case, MVC, ExecAuto, relatorios, webservice, SmartLink, Smart View |
+| `smartx-development` | Desenvolvimento Smart X: modelo/interface/launcher a partir de metadados, conversao de browse (SetSmartX), pontos de entrada, migracao de legado e troubleshooting |
 | `protheus-reference` | 190+ funcoes nativas, dicionario SX, referencia REST API, funcoes FW*, lista de funcoes restritas |
 | `protheus-business` | 8 modulos ERP com tabelas, rotinas, parametros MV_* e integracoes |
 | `embedded-sql` | BeginSQL/EndSQL, macros %table%, %notDel%, %xfilial%, %exp%, column types |
@@ -253,13 +258,14 @@ advpl-specialist/
 │   ├── document.md
 │   ├── changelog.md
 │   └── sxgen.md
-├── skills/                        # 17 referencias internas (reference.md + supporting files)
+├── skills/                        # 18 referencias internas (reference.md + supporting files)
 │   ├── advpl-code-generation/     # Padroes MVC, REST, SOAP, PE, TReport, FWFormBrowse, Jobs, Workflow
 │   ├── advpl-to-tlpp-migration/   # Regras e checklist de migracao
 │   ├── advpl-debugging/           # Erros comuns e performance
 │   ├── advpl-code-review/         # 24 regras de revisao de codigo
 │   ├── probat-testing/            # Testes unitarios ProBat (TLPP)
 │   ├── advpr-test-automation/     # Automacao de testes ADVPR: FWTestHelper, MVC, ExecAuto, relatorios, webservice, SmartLink, Smart View
+│   ├── smartx-development/        # Smart X: modelo/interface/launcher, conversao de browse, PEs, migracao
 │   ├── protheus-business/         # 8 modulos ERP (COM, EST, FAT, FIN, CTB, FIS, PCP, MNT)
 │   ├── embedded-sql/              # BeginSQL/EndSQL, macros, patterns
 │   ├── query-builder/             # Decisao Workarea vs SQL, FWPreparedStatement, indices SIX, cross-DB

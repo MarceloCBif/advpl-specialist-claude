@@ -6,6 +6,12 @@ Todas as mudancas notaveis deste projeto serao documentadas neste arquivo.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-07-17
+
+### Added / Adicionado
+- New knowledge base `skills/smartx-development/` documenting **Smart X** — the TOTVS framework that auto-generates modern web UIs from metadata: concept and architecture (Objeto/Modelo/Interface/Launcher), data-model patterns (ObjectFromMetadata, events, expressions, SX3 "Valid Smart X", grid line validation), interface patterns (BuildContract/BuildDataView/actions/legends/aggregates/Knowledge Base), browse conversion for legacy routines (SetSmartX/hasSmartX on mBrowse/FWMBrowse), ADVPL integration and Smart X entry points (formPre/formPos/beforeCommit*/afterCommit*, custom.entrypoint namespace), legacy-to-SmartX migration guide (stateful→stateless, what does not migrate on 2610) and troubleshooting. New command `/advpl-specialist:smartx` generates or migrates Smart X routines (`--mode generate|migrate`).
+- Nova base de conhecimento `skills/smartx-development/` documentando o **Smart X** — framework TOTVS que gera telas web modernas automaticamente a partir de metadados: conceito e arquitetura (Objeto/Modelo/Interface/Launcher), padroes de modelo de dados (ObjectFromMetadata, eventos, expressoes, "Valid Smart X" no SX3, validacao de linha de grid), padroes de interface (BuildContract/BuildDataView/acoes/legendas/totalizadores/Banco de Conhecimento), conversao de browse para rotinas legadas (SetSmartX/hasSmartX no mBrowse/FWMBrowse), integracao ADVPL e pontos de entrada do Smart X (formPre/formPos/beforeCommit*/afterCommit*, namespace custom.entrypoint), guia de migracao de legado (stateful→stateless, o que nao migra no 2610) e troubleshooting. Novo comando `/advpl-specialist:smartx` gera ou migra rotinas Smart X (`--mode generate|migrate`).
+
 ## [1.3.1] - 2026-07-16
 
 ### Added / Adicionado
