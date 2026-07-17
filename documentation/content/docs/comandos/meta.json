@@ -13,6 +13,7 @@
     "document",
     "changelog",
     "sxgen",
-    "advpr"
+    "advpr",
+    "smartx"
   ]
 }

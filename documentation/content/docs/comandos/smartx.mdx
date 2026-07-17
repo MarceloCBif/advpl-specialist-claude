@@ -1,0 +1,68 @@
+---
+title: /smartx
+description: Gera ou migra rotinas Smart X (telas web modernas a partir de metadados) - modelo, interface e launcher TLPP
+---
+
+# /advpl-specialist:smartx
+
+Gera ou migra rotinas Smart X (telas web modernas orientadas a metadados) para o TOTVS Protheus.
+
+## Uso
+
+```bash
+/advpl-specialist:smartx [options]
+```
+
+Descreva em linguagem natural a rotina Smart X desejada (nova ou existente para migracao) apos o comando. O agente ira interpretar a descricao e gerar os fontes `model.tlpp`, `interface.tlpp` e launcher correspondentes.
+
+## Opcoes
+
+| Flag | Descricao | Padrao |
+|------|-----------|--------|
+| `--mode` | Modo de operacao: `generate` (nova rotina Smart X) ou `migrate` (converter rotina existente) | Inferir automaticamente: mencoes a rotina existente, mBrowse, AxCadastro, MVC ou "converter"/"migrar" indicam `migrate`; caso contrario `generate` |
+| `--output` | Caminho de saida dos arquivos `.tlpp` gerados | Diretorio atual |
+
+## Fluxo
+
+### Modo `generate`
+
+1. **Carregar referencia base** — Ler `skills/smartx-development/reference.md`, `skills/smartx-development/patterns-model.md`, `skills/smartx-development/patterns-interface.md` e `skills/smartx-development/patterns-launcher-browse.md`
+2. **Carregar integracao ADVPL (condicional)** — Se a descricao mencionar ponto de entrada ou reaproveitamento de funcao ADVPL existente, ler tambem `skills/smartx-development/patterns-advpl-integration.md`
+3. **Delegar ao agent `code-generator`** — Gerar os fontes respeitando o namespace `custom.<agrupador>.<servico>`, a separacao entre `model.tlpp`, `interface.tlpp` e o launcher, alem das convencoes de `skills/advpl-code-generation/reference.md`
+
+### Modo `migrate`
+
+1. **Carregar referencia base** — Ler `skills/smartx-development/reference.md`, `skills/smartx-development/patterns-migration.md` e `skills/smartx-development/troubleshooting.md`
+2. **Analisar rotina de origem** — Identificar se a origem e mBrowse, AxCadastro ou MVC (ModelDef/ViewDef/MenuDef) para mapear a estrategia de conversao
+3. **Delegar ao agent `migrator`** — Converter a rotina para a estrutura Smart X equivalente, preservando regras de negocio e apontando riscos/pontos de atencao da migracao
+
+### Mapeamento --mode para arquivos
+
+| Modo | Arquivos gerados/afetados |
+|------|---------------------------|
+| `generate` | `model.tlpp` (regras de negocio e persistencia), `interface.tlpp` (metadados de campos e layout), launcher (browse/entrada da rotina) |
+| `migrate` | `model.tlpp` e `interface.tlpp` convertidos a partir da rotina de origem (mBrowse/AxCadastro/MVC), launcher atualizado, relatorio de pontos de atencao da migracao |
+
+## Exemplos
+
+```bash
+# Gerar uma nova rotina Smart X de cadastro de clientes
+/advpl-specialist:smartx --mode generate
+Cadastro de clientes com campos codigo, nome, CNPJ e status.
+
+# Inferir o modo automaticamente a partir da descricao
+/advpl-specialist:smartx
+Preciso migrar o cadastro atual em MVC MATA030 para Smart X.
+
+# Migrar uma rotina existente explicitamente
+/advpl-specialist:smartx --mode migrate
+Converter o mBrowse de pedidos de compra para Smart X.
+
+# Salvar em caminho especifico
+/advpl-specialist:smartx --mode generate --output src/smartx/clientes
+```
+
+## Saida
+
+- **Modo `generate`**: `model.tlpp` (regras de negocio e persistencia via `ObjectFromMetadata()`/`BuildFromCode()`), `interface.tlpp` (contrato de UI com browse e formularios de inclusao/edicao/visualizacao) e a funcao launcher que registra a rotina no menu Protheus.
+- **Modo `migrate`**: o fonte migrado (`model.tlpp`/`interface.tlpp`/launcher) equivalente a rotina de origem, com relatorio de pontos de atencao — por exemplo, recursos que nao tem caminho de conversao suportado (`AxCadastro`, Tree) e que exigem manter o fonte legado.

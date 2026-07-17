@@ -1,0 +1,147 @@
+---
+title: Smart X Development
+description: "Desenvolvimento Smart X - telas web modernas geradas automaticamente a partir de metadados: modelo, interface, launcher, conversao de browse e migracao de legado"
+---
+
+# Smart X Development
+
+Smart X e um framework TOTVS que gera telas com interface web moderna automaticamente a partir de metadados. O desenvolvedor descreve a estrutura de dados, as regras de negocio e o layout, e o framework gera e renderiza a interface (PO-UI), eliminando a necessidade de construir componentes visuais manualmente.
+
+> O comando `/advpl-specialist:smartx` gera e migra rotinas Smart X seguindo os padroes desta skill automaticamente.
+
+## Arquitetura (Objeto, Modelo, Interface e Launcher)
+
+Toda rotina Smart X e composta por tres artefatos, mais o launcher que a registra no menu. O fluxo e sempre Objeto -> Modelo -> Interface -> Launcher: o Launcher referencia a Interface pelo namespace; a Interface referencia o Modelo via `setModelId()`; o Modelo cria Objetos via `ObjectFromMetadata()` (ou `BuildFromCode()`) a partir do alias da tabela.
+
+| Artefato | O que e | Arquivo tipico |
+|---|---|---|
+| Objeto | Contrato JSON representando uma tabela, gerado via `ObjectFromMetadata()` (dicionario) ou `BuildFromCode()` (declarado em codigo) | gerado em runtime pelo framework |
+| Modelo | Classe TLPP com atributos, relacionamentos entre tabelas e regras de negocio | `namespace.model.tlpp` |
+| Interface | Classe TLPP que define o contrato de UI (browse, formularios de inclusao/edicao/visualizacao) | `namespace.interface.tlpp` |
+| Launcher | Funcao ADVPL/TLPP registrada no menu que instancia `totvs.framework.application.smartx.launcher()` e abre a rotina apontando para a Interface | funcao de menu (ex.: `FINA050SM()`) |
+
+Os tres artefatos usam includes proprios (`fw-tlpp-core.th`, `protheus.ch`, `totvs.framework.structure.model.th` no Modelo, `totvs.framework.structure.Interface.th` na Interface). O Modelo leva a annotation `@totvsFrameworkStructureModel(...)` e estende `totvs.framework.structure.model.data`; a Interface leva `@totvsFrameworkStructureInterface(...)`.
+
+## Exemplo Minimo
+
+Modelo (`model.tlpp`) — cria o objeto principal a partir do dicionario de dados:
+
+```c
+#include 'fw-tlpp-core.th'
+#include "protheus.ch"
+#include "totvs.framework.structure.model.th"
+
+namespace totvs.backoffice.fin.fina050sm
+
+@totvsFrameworkStructureModel(lookup=.F., country="ALL", description="Contas a Pagar")
+
+Class Model From totvs.framework.structure.model.data
+    Public Method new() As Object
+    Public Method setModel()
+EndClass
+
+method setModel() class Model
+    local oSE2 as object
+    oSE2 := totvs.framework.structure.object.ObjectFromMetadata():new("SE2",, {"E2_PREFIXO", "E2_NUM"})
+    self:setObject(oSE2:getObject(), "SE2")
+    self:loadEventsFromMetadata()
+return
+```
+
+Interface (`interface.tlpp`) — declara o contrato de UI referenciando o Modelo:
+
+```c
+#include 'fw-tlpp-core.th'
+#include "protheus.ch"
+#include "totvs.framework.structure.Interface.th"
+
+namespace totvs.backoffice.fin.fina050sm
+
+@totvsFrameworkStructureInterface(lookup=.F., country="ALL", description="Contas a Pagar")
+
+class Interface
+    private data oInterface as object
+    public method new() as object
+    public method setInterface()
+endClass
+
+method setInterface() class Interface
+    ::oInterface := totvs.framework.structure.interface.BuildContract():new("fina050")
+    ::oInterface:setModelId("totvs.backoffice.fin.fina050sm.model", .F.)
+return
+```
+
+Launcher (funcao de menu):
+
+```c
+function FINA050SM()
+    local oLauncher as object
+    oLauncher := totvs.framework.application.smartx.launcher():new()
+    oLauncher:setInterface("totvs.backoffice.fin.fina050sm.interface")
+    oLauncher:open()
+Return
+```
+
+## Conversao de Browse (rotina MVC existente)
+
+E possivel modernizar apenas a listagem (grid) de uma rotina MVC classica sem reescrever Modelo/Interface, usando `SetSmartX()` (funcao global, dentro da mesma funcao que chama `mBrowse`) ou `FWMBrowse():setSmartX()`. Sempre condicione a ativacao a `hasSmartX()` — ambientes que nao atendem aos pre-requisitos devem continuar no browse classico.
+
+**Pre-requisitos:** Release 12.1.2610 ou superior em ambientes produtivos; RPO D-1 em desenvolvimento interno; include `fwmbrowse.ch` atualizado para `hasSmartX()`.
+
+```c
+Function MEUFONTMVC()
+    local cFilterDefault as character
+    cFilterDefault := "@ ZA0_TIPO IN ('1','2')"
+
+    If hasSmartX()
+        setSmartX(2, .T.) // define o browse Smart X (indice, ordem ascendente)
+    EndIf
+
+    mBrowse(,,,,"ZA0",,,,,,,,,,,,,,cFilterDefault)
+Return Nil
+```
+
+Avisos: `DbSetFilter` na workarea e ignorado no browse convertido; personalizacoes visuais (cor/fonte, papel de trabalho) nao sao aplicadas; use `oBrowse:isSmartX()` para confirmar se a rotina esta em modo Smart X apos a ativacao. No MenuDef, apenas a primeira operacao de inclusao vira `pageAction` automaticamente — use o comando `PAGEACTION` do `ADD OPTION` para forcar outras acoes.
+
+## Pontos de Entrada do Smart X
+
+O Smart X implementa PEs disparados nas operacoes de inclusao, alteracao e delecao, manipulando o objeto de dados TLPP (nunca componentes visuais).
+
+| PE | Momento | Pode abortar? |
+|---|---|---|
+| `formPre` | Carregamento do formulario (create/update); permite desabilitar entidades/campos | Nao (retorno e array) |
+| `formPos` | Confirmacao do formulario, antes da transacao | Sim |
+| `beforeCommit` | Antes da persistencia, fora da transacao | Nao |
+| `beforeCommitInTransaction` | Antes da persistencia, dentro da transacao | Sim |
+| `afterCommitInTransaction` | Apos a persistencia, dentro da transacao | Sim |
+| `afterCommit` | Apos a persistencia, fora da transacao | Nao |
+
+O namespace do PE segue o namespace do Modelo, substituindo o prefixo por `custom.entrypoint` — por exemplo, `totvs.protheus.faturamento.model` vira `custom.entrypoint.protheus.faturamento.model`. Cada PE e uma User Function nomeada exatamente como o PE.
+
+## Migracao de Legado
+
+A migracao para Smart X e uma mudanca de paradigma **Stateful -> Stateless**: o frontend roda em thread apartada, consumindo apenas JSON via API, sem cursor ativo entre requisicoes. Isso afeta variaveis `Private`/`Static`, workarea e alias de tabela temporaria (nao suportado).
+
+Ha dois caminhos: **A — incremental** (apenas o browse via `setSmartX()`, preservando ModelDef/ViewDef/MenuDef) e **B — reescrita completa** (novo Modelo + Interface + Launcher nativos, mantendo o fonte legado para compatibilidade com ExecAuto/Rotina Automatica).
+
+Recursos que **nao migram** na Release 2610: `AxCadastro`, Tree (`FWTree`/`TreeModel`), Papel de Trabalho (SIGACFG), `MarkBrowse` em grid interno, `aHeader`/`aCols`, tabelas temporarias, `X3_WHEN`, `ViewDef` manual (`CreateHorizontalBox`/`CreateVerticalBox`), `AddOtherObject`, array `aFixe` e Painel Mestre/Detalhe na mesma tela.
+
+## Troubleshooting
+
+- Para gerar os contratos JSON de uma rotina e investigar inconsistencias: RPO D-1, `FWTRACELOG=1` na secao do ambiente do `appserver.ini`, acessar a rotina — os arquivos sao gravados na pasta `smartx` do `rootPath`.
+- Validacao de campo com `Valid` do dicionario que dependia de contexto visual classico nao roda automaticamente no Smart X — use o campo **X3_VLDSMX** para apontar a validacao compativel (`serverValidate`).
+- Use `hasSmartX()` antes de qualquer ativacao e `oBrowse:isSmartX()`/`totvs.framework.smartx.context.amIIn()` para diagnosticar se o contexto de execucao e Smart X ou MVC classico.
+
+## Arquivos de Suporte
+
+Esta skill inclui os seguintes arquivos de referencia:
+
+| Arquivo | Conteudo |
+|---|---|
+| `reference.md` | Conceito, arquitetura Objeto/Modelo/Interface/Launcher, exemplo minimo completo |
+| `patterns-model.md` | Padroes de construcao do Modelo (objeto principal, relacionamentos 1:1 e 1:N) |
+| `patterns-interface.md` | Padroes de construcao da Interface (DataView, DataNew/Edit/Detail, eventos, legendas) |
+| `patterns-launcher-browse.md` | Launcher nativo e conversao incremental de browse (`SetSmartX`/`hasSmartX`) |
+| `patterns-advpl-integration.md` | Chamada de funcoes ADVPL a partir da interface e Pontos de Entrada do Smart X |
+| `patterns-migration.md` | Migracao de rotinas legadas (MBrowse/AxCadastro/MVC) para Smart X |
+| `troubleshooting.md` | Erros comuns, mudancas de comportamento e validacao de ambiente |

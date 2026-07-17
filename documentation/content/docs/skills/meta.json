@@ -16,6 +16,7 @@
     "protheus-locks-deadlocks",
     "protheus-reference",
     "query-builder",
+    "smartx-development",
     "sx-configuration",
     "tdn-lookup"
   ]
