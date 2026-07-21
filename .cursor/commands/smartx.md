@@ -14,6 +14,9 @@ Also consult `skills/advpl-code-generation/reference.md` for general naming, Hun
 
 ## Workflow
 
+### Mode detection
+If `--mode` is not provided, infer it: mentions of an existing routine, mBrowse, AxCadastro, MVC, or "convert"/"migrate" imply `migrate`; otherwise `generate`.
+
 ### Mode `generate`
 1. Read the base reference and pattern files listed above for `generate`.
 2. Generate three sources: `model.tlpp` (business rules/persistence), `interface.tlpp` (field/layout metadata), and the launcher (browse/entry point).
@@ -30,9 +33,6 @@ Also consult `skills/advpl-code-generation/reference.md` for general naming, Hun
 |------|---------------------------|
 | `generate` | `model.tlpp`, `interface.tlpp`, launcher |
 | `migrate` | `model.tlpp` and `interface.tlpp` converted from the source routine, updated launcher, migration risk report |
-
-## Workflow (mode detection)
-If `--mode` is not provided, infer it: mentions of an existing routine, mBrowse, AxCadastro, MVC, or "convert"/"migrate" imply `migrate`; otherwise `generate`.
 
 ## Output rules
 - Every `.tlpp` file must declare `namespace custom.<agrupador>.<servico>`.

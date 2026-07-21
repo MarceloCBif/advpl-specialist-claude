@@ -28,7 +28,7 @@ Locate the advpl-specialist skills (installed via `npx skills add thalysjuvenal/
 
 ## Output rules
 - Only document what the code actually does — never invent behavior or fields.
-- Use the user's language for descriptions.
+- Match the language of the source code's existing comments and docblocks (Protheus projects typically use Brazilian Portuguese).
 - Follow the exact template structure from `skills/documentation-patterns/reference.md` for the requested type.
 - Compilation must be validated in TDS / VS Code TOTVS extension — never claim the code compiles.
 
