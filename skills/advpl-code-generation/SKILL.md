@@ -18,6 +18,7 @@ The reference and pattern files below hold the concrete templates -- read the sp
 | patterns-mvc.md | Generating an MVC screen (ModelDef/ViewDef/MenuDef) |
 | patterns-rest.md | Generating a REST API endpoint (WsRestFul or TLPP `@Get/@Post` annotations) |
 | patterns-soap.md | Generating a SOAP Web Service |
+| patterns-treport.md | Generating a TReport-based report with embedded SQL |
 | patterns-pontos-entrada.md | Generating a legacy (non-MVC) entry point (ponto de entrada) |
 | patterns-pontos-entrada-mvc.md | Generating an MVC-based entry point |
 | patterns-workflow.md | Generating a Protheus workflow routine |
