@@ -1,0 +1,48 @@
+---
+title: Outras IAs
+description: Como usar o advpl-specialist no GitHub Copilot, Cursor, Gemini CLI, Codex e outros agentes
+---
+
+O `advpl-specialist` nasceu como plugin do Claude Code, mas todo o conhecimento tecnico (as 18 skills) e as instrucoes de repositorio sao portaveis para outros agentes de IA: GitHub Copilot, Cursor, Gemini CLI, Codex e mais de 70 agentes suportados pelo `skills.sh`.
+
+## Passo 1: Skills (qualquer agente)
+
+Instale as 18 skills no seu agente de preferencia com um unico comando:
+
+```bash
+npx skills add thalysjuvenal/advpl-specialist
+```
+
+Esse comando instala as skills em Copilot CLI, Codex, Cursor, Gemini CLI, OpenCode e 70+ agentes compativeis com o `skills.sh`.
+
+## Passo 2: Instrucoes de repositorio
+
+Copie os arquivos de instrucoes para a raiz do seu repositorio Protheus:
+
+- `AGENTS.md`
+- `.github/copilot-instructions.md`
+- `CLAUDE.md`
+
+Esses arquivos concentram as convencoes ADVPL/TLPP, os padroes de nomenclatura e as regras de boas praticas que orientam o agente durante a geracao e revisao de codigo.
+
+## Passo 3: Comandos (opcional)
+
+Se quiser reproduzir os comandos do plugin (`/advpl-specialist:generate`, `/advpl-specialist:diagnose`, etc.) na sua plataforma, copie a pasta correspondente para o seu repositorio:
+
+- `.github/prompts/` — GitHub Copilot (funciona no VS Code, Visual Studio e JetBrains; NAO funciona em github.com nem no coding agent)
+- `.cursor/commands/` — Cursor
+- `.gemini/commands/` — Gemini CLI
+
+### Nota Codex
+
+O Codex ja e coberto pelo `AGENTS.md` combinado com as skills instaladas via `npx skills add`. Os custom prompts do Codex estao deprecated; as skills passam a residir em `.agents/skills/` dentro do projeto.
+
+### Nota de manutencao
+
+Os comandos distribuidos em `.github/prompts/`, `.cursor/commands/` e `.gemini/commands/` sao gerados automaticamente a partir de `ai-commands/src/`, usando o compilador `scripts/build-ai-commands.mjs`. Nao edite essas saidas manualmente — qualquer ajuste deve ser feito na fonte e recompilado.
+
+## Proximos passos
+
+- [Instalacao](/docs/instalacao) — Instalacao completa no Claude Code
+- [Comandos](/docs/comandos) — Lista completa de comandos disponiveis
+- [Skills](/docs/skills) — Detalhes das 18 bases de conhecimento internas

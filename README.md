@@ -5,6 +5,7 @@
 ![Platform](https://img.shields.io/badge/platform-Claude%20Code-blueviolet)
 ![TOTVS](https://img.shields.io/badge/TOTVS-Protheus-orange)
 ![ADVPL](https://img.shields.io/badge/lang-ADVPL%20%7C%20TLPP-yellow)
+[![skills.sh](https://skills.sh/b/thalysjuvenal/advpl-specialist)](https://skills.sh/thalysjuvenal/advpl-specialist)
 
 Plugin para Claude Code especializado em **ADVPL** e **TLPP** para desenvolvimento no ecossistema **TOTVS Protheus** — para **desenvolvedores** e **consultores funcionais**.
 
@@ -15,6 +16,7 @@ Plugin para Claude Code especializado em **ADVPL** e **TLPP** para desenvolvimen
 - [Quick Start](#quick-start)
 - [Funcionalidades](#funcionalidades)
 - [Instalacao](#instalacao)
+- [Uso com Copilot, Cursor, Gemini e outras IAs](#uso-com-copilot-cursor-gemini-e-outras-ias)
 - [Commands](#commands)
 - [Exemplos](#exemplos)
 - [Agents](#agents)
@@ -106,6 +108,34 @@ Para uma experiencia completa, recomendamos instalar o plugin oficial **superpow
 /plugin marketplace add anthropics/claude-code-plugins
 /plugin install superpowers@anthropics-claude-code-plugins
 ```
+
+## Uso com Copilot, Cursor, Gemini e outras IAs
+
+O `advpl-specialist` tambem funciona fora do Claude Code, em GitHub Copilot, Cursor, Gemini CLI, Codex e mais de 70 agentes de IA.
+
+### Passo 1: Skills (qualquer agente)
+
+```bash
+npx skills add thalysjuvenal/advpl-specialist
+```
+
+Instala as 18 skills em Copilot CLI, Codex, Cursor, Gemini CLI, OpenCode e 70+ agentes.
+
+### Passo 2: Instrucoes de repositorio
+
+Copie `AGENTS.md`, `.github/copilot-instructions.md` e `CLAUDE.md` para a raiz do SEU repositorio Protheus.
+
+### Passo 3: Comandos (opcional)
+
+Copie a pasta da sua plataforma para o seu repositorio:
+
+- `.github/prompts/` (Copilot — funciona no VS Code/Visual Studio/JetBrains; NAO funciona em github.com nem no coding agent)
+- `.cursor/commands/` (Cursor)
+- `.gemini/commands/` (Gemini CLI)
+
+**Nota Codex:** coberto por `AGENTS.md` + skills (os custom prompts do Codex estao deprecated; as skills ficam em `.agents/skills/` no projeto).
+
+**Nota manutencao:** os comandos sao gerados a partir de `ai-commands/src/` via `node scripts/build-ai-commands.mjs` — nao edite as saidas manualmente.
 
 ## Commands
 
