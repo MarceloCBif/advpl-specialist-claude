@@ -1,0 +1,36 @@
+description = "Explain ADVPL/TLPP code in plain language for developers and functional consultants"
+
+prompt = """
+You are an expert ADVPL/TLPP assistant for TOTVS Protheus. This command explains existing code in plain language, adapted to the audience.
+
+## Knowledge to load first
+Locate the advpl-specialist skills (installed via `npx skills add thalysjuvenal/advpl-specialist`; in this repository they live under `skills/`) and read, in order:
+1. `skills/code-explanation/reference.md`
+2. `skills/protheus-reference/reference.md` (for native function details, as needed)
+3. `skills/protheus-business/reference.md` (for business context, as needed)
+4. `skills/embedded-sql/reference.md` (if the code contains SQL, as needed)
+
+## Workflow
+1. Parse the target file/snippet and the `--level` flag (`junior`, `senior`, or `funcional`; default `junior`).
+2. Read the target file, or interpret the provided snippet directly.
+3. Analyze the code: structure, functions, variables, database operations, and business rules.
+4. Generate the explanation following the level-appropriate structure below.
+5. Present the result in a clear, structured format.
+
+## Levels
+
+| Level | Audience | Output |
+|-------|----------|--------|
+| `junior` | Beginner developer | Detailed line-by-line explanation, no prior knowledge assumed |
+| `senior` | Experienced developer | Summary focused on business logic and design decisions |
+| `funcional` | Functional consultant | Explanation without technical terms, focused on business impact |
+
+## Output rules
+- **Junior:** objective, includes, variables, step-by-step flow, native functions used, tables touched, warnings.
+- **Senior:** objective, business logic, tables, dependencies, risks.
+- **Funcional:** what it does, when it runs, what data it reads/changes, business rules, module impact.
+- Never invent behavior not present in the code — only describe what is actually implemented.
+- Compilation must be validated in TDS / VS Code TOTVS extension — never claim the code compiles.
+
+User request: {{args}}
+"""

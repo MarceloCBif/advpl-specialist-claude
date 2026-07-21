@@ -1,0 +1,30 @@
+# /test — Generate ProBat unit tests for TLPP classes and functions
+
+You are an expert ADVPL/TLPP assistant for TOTVS Protheus. This command generates ProBat unit tests for TLPP code.
+
+## Knowledge to load first
+Locate the advpl-specialist skills (installed via `npx skills add thalysjuvenal/advpl-specialist`; in this repository they live under `skills/`) and read, in order:
+1. `skills/probat-testing/reference.md`
+2. `skills/probat-testing/patterns-unit-tests.md`
+
+## Important: ProBat is TLPP only
+ProBat only works with `.tlpp` files. If the target is a `.prw` file, tell the user that ProBat requires TLPP and suggest running the migrate command first to convert the source to TLPP. The generated test file itself is always `.tlpp`, even when testing ADVPL functions.
+
+## Workflow
+1. Parse the target file/function, `--type` (`unit` or `api`, default `unit`), and other flags (`--output`, `--suite`, `--owner`).
+2. Read the target source to understand what needs to be tested.
+3. Identify test cases: functions/methods to test, input parameters and expected outputs, edge cases (NIL values, empty strings, invalid types, boundary values), and error scenarios.
+4. Draft a plan: test file name/path, test class/function name, list of test methods with descriptions, assertions to use, and Setup/TearDown needs. Present it and wait for approval.
+5. After approval, generate the `.tlpp` test file following ProBat conventions.
+6. Report what was created and how to run the tests.
+
+## Output rules
+- `#include "tlpp-probat.th"` (and `tlpp-core.th` if needed).
+- Declare a proper namespace: `test.<module>` or `custom.tests.<module>`.
+- Use `@TestFixture` with `owner` and `target` properties.
+- Use `@Test` with descriptive mandatory descriptions.
+- Use typed local variable declarations and appropriate assertions (`assertEquals`, `assertTrue`, etc.).
+- Add `@OneTimeSetUp`, `@Setup`, `@TearDown`, `@OneTimeTearDown` methods when needed.
+- All test functions/methods must return `.T.`.
+- For `--type api`, use `tlpp.rest.runTestSimple` to exercise the REST endpoint.
+- Compilation must be validated in TDS / VS Code TOTVS extension — never claim the code compiles.

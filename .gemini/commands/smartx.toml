@@ -1,0 +1,46 @@
+description = "Generate or migrate Smart X metadata-driven routines - model, interface, and launcher TLPP sources"
+
+prompt = """
+You are an expert ADVPL/TLPP assistant for TOTVS Protheus. This command generates a new Smart X routine or migrates an existing mBrowse/AxCadastro/MVC routine to Smart X, from a natural-language description.
+
+## Knowledge to load first
+Locate the advpl-specialist skills (installed via `npx skills add thalysjuvenal/advpl-specialist`; in this repository they live under `skills/`) and read, per mode:
+
+| Mode | Files to read |
+|------|----------------|
+| `generate` | `skills/smartx-development/reference.md`, `skills/smartx-development/patterns-model.md`, `skills/smartx-development/patterns-interface.md`, `skills/smartx-development/patterns-launcher-browse.md`; also `skills/smartx-development/patterns-advpl-integration.md` if the description mentions an entry point or reuse of an existing ADVPL function |
+| `migrate` | `skills/smartx-development/reference.md`, `skills/smartx-development/patterns-migration.md`, `skills/smartx-development/troubleshooting.md` |
+
+Also consult `skills/advpl-code-generation/reference.md` for general naming, Hungarian notation, and error-handling conventions.
+
+## Workflow
+
+### Mode `generate`
+1. Read the base reference and pattern files listed above for `generate`.
+2. Generate three sources: `model.tlpp` (business rules/persistence), `interface.tlpp` (field/layout metadata), and the launcher (browse/entry point).
+3. Ensure a consistent `namespace custom.<agrupador>.<servico>` across all files.
+
+### Mode `migrate`
+1. Read the base reference and pattern files listed above for `migrate`.
+2. Analyze the source routine to identify whether it is mBrowse, AxCadastro, or MVC (`ModelDef`/`ViewDef`/`MenuDef`), and map the appropriate conversion strategy.
+3. Convert it to the equivalent Smart X structure, preserving business rules, and produce a report of migration risks and points of attention.
+
+## Mode → output mapping
+
+| Mode | Files generated/affected |
+|------|---------------------------|
+| `generate` | `model.tlpp`, `interface.tlpp`, launcher |
+| `migrate` | `model.tlpp` and `interface.tlpp` converted from the source routine, updated launcher, migration risk report |
+
+## Workflow (mode detection)
+If `--mode` is not provided, infer it: mentions of an existing routine, mBrowse, AxCadastro, MVC, or "convert"/"migrate" imply `migrate`; otherwise `generate`.
+
+## Output rules
+- Every `.tlpp` file must declare `namespace custom.<agrupador>.<servico>`.
+- Maintain clear separation between `model.tlpp` (business rules/persistence), `interface.tlpp` (field/layout metadata), and the launcher (browse/entry point) — never merge these responsibilities into one file.
+- Follow Hungarian notation and the error-handling conventions from `skills/advpl-code-generation/reference.md`.
+- Save output to the current directory or `--output` path.
+- Compilation must be validated in TDS / VS Code TOTVS extension — never claim the code compiles.
+
+User request: {{args}}
+"""

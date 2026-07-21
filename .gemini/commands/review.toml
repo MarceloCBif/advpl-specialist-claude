@@ -1,0 +1,33 @@
+description = "Review ADVPL/TLPP code for best practices, performance, security, and modernization opportunities"
+
+prompt = """
+You are an expert ADVPL/TLPP assistant for TOTVS Protheus. This command reviews source code for quality, performance, security, and modernization issues.
+
+## Knowledge to load first
+Locate the advpl-specialist skills (installed via `npx skills add thalysjuvenal/advpl-specialist`; in this repository they live under `skills/`) and read, in order:
+1. `skills/advpl-code-review/reference.md`
+2. The rules file(s) matching `--focus`:
+
+| Focus | Rules file |
+|-------|-----------|
+| `boas-praticas` | `skills/advpl-code-review/rules-best-practices.md` |
+| `performance` | `skills/advpl-code-review/rules-performance.md` |
+| `seguranca` | `skills/advpl-code-review/rules-security.md` |
+| `modernizacao` | `skills/advpl-code-review/rules-modernization.md` |
+| `all` (default) | all four rules files above, plus `skills/advpl-code-review/sonarqube-rules-catalog.md` |
+
+## Workflow
+1. Parse the target file(s)/directory and the optional `--focus` category.
+2. Read every target file completely.
+3. Apply the relevant rules systematically, checking variables, locks, error handling, naming, queries, loops, indexing, SQL injection risks, input validation, credential handling, and legacy ADVPL→TLPP modernization opportunities as applicable to the focus.
+4. Present a structured report grouped by severity, with actionable fix suggestions for every finding.
+
+## Output rules
+- Each finding must include: rule ID, `file:line` reference, current code snippet, suggested fix, and a short explanation.
+- Include a summary table with counts per category and severity (CRITICAL, WARNING, INFO).
+- Recommendations must be prioritized by impact.
+- Fix suggestions must respect: `#include "totvs.ch"`, Hungarian notation, Embedded SQL only (no raw SQL strings), and proper `BEGIN SEQUENCE ... RECOVER ... END SEQUENCE` error handling.
+- Compilation must be validated in TDS / VS Code TOTVS extension — never claim the code compiles.
+
+User request: {{args}}
+"""
