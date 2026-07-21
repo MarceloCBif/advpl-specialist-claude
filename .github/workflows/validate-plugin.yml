@@ -170,3 +170,31 @@ jobs:
           # Comandos multi-IA em sincronia com a fonte canonica
           node scripts/build-ai-commands.mjs --check || fail=1
           exit $fail
+
+      - name: Validate documented counts (README + site)
+        run: |
+          set -euo pipefail
+          fail=0
+          CMD=$(ls commands/*.md | wc -l | tr -d ' ')
+          AG=$(ls agents/*.md | wc -l | tr -d ' ')
+          SK=$(ls -d skills/*/ | wc -l | tr -d ' ')
+          SRC=$(ls ai-commands/src/*.md | wc -l | tr -d ' ')
+          echo "reais: $CMD commands, $AG agents, $SK skills, $SRC fontes canonicas"
+          # fonte canonica multi-IA acompanha commands/
+          [ "$CMD" -eq "$SRC" ] || { echo "commands/ ($CMD) != ai-commands/src/ ($SRC)"; fail=1; }
+          # README: contagem na arvore e presenca de cada command
+          grep -q "# $CMD commands invocaveis" README.md || { echo "README arvore: esperado '# $CMD commands invocaveis'"; fail=1; }
+          for f in commands/*.md; do
+            grep -q "$(basename "$f")" README.md || { echo "README arvore: falta $(basename "$f")"; fail=1; }
+          done
+          # Site: tabela "Numeros do plugin" (index.mdx)
+          grep -q "| \*\*Comandos\*\* | $CMD |" documentation/content/docs/index.mdx || { echo "index.mdx: contagem de comandos != $CMD"; fail=1; }
+          grep -q "| \*\*Agentes\*\* | $AG |" documentation/content/docs/index.mdx || { echo "index.mdx: contagem de agentes != $AG"; fail=1; }
+          grep -q "| \*\*Skills\*\* | $SK |" documentation/content/docs/index.mdx || { echo "index.mdx: contagem de skills != $SK"; fail=1; }
+          # Site: og:description (layout.tsx)
+          grep -q "$CMD comandos, $AG agentes, $SK skills" documentation/app/layout.tsx || { echo "layout.tsx og:description: esperado '$CMD comandos, $AG agentes, $SK skills'"; fail=1; }
+          # Site: cards da home (page.tsx)
+          grep -q "font-bold\">$CMD<" documentation/app/page.tsx || { echo "page.tsx: card Comandos != $CMD"; fail=1; }
+          grep -q "font-bold\">$AG<" documentation/app/page.tsx || { echo "page.tsx: card Agentes != $AG"; fail=1; }
+          grep -q "font-bold\">$SK<" documentation/app/page.tsx || { echo "page.tsx: card Skills != $SK"; fail=1; }
+          exit $fail
