@@ -5,8 +5,9 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = path.resolve(new URL('.', import.meta.url).pathname, '..');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SRC_DIR = path.join(ROOT, 'ai-commands', 'src');
 const COPILOT_DIR = path.join(ROOT, '.github', 'prompts');
 const CURSOR_DIR = path.join(ROOT, '.cursor', 'commands');
@@ -20,7 +21,8 @@ function readSourceCommands() {
 
   return files.map((file) => {
     const name = file.slice(0, -3);
-    const raw = fs.readFileSync(path.join(SRC_DIR, file), 'utf8');
+    // Normalize CRLF so autocrlf checkouts don't produce spurious drift
+    const raw = fs.readFileSync(path.join(SRC_DIR, file), 'utf8').replace(/\r\n/g, '\n');
     const lines = raw.split('\n');
 
     if (lines[0].trim() !== '---') {
@@ -111,7 +113,7 @@ function check(outputs) {
       diverging.push(filePath);
       continue;
     }
-    const actual = fs.readFileSync(filePath, 'utf8');
+    const actual = fs.readFileSync(filePath, 'utf8').replace(/\r\n/g, '\n');
     if (actual !== expected) {
       diverging.push(filePath);
     }
@@ -145,7 +147,13 @@ function write(outputs) {
 }
 
 function main() {
-  const commands = readSourceCommands();
+  let commands;
+  try {
+    commands = readSourceCommands();
+  } catch (err) {
+    console.error(`build-ai-commands: ${err.message}`);
+    process.exit(1);
+  }
   const outputs = buildAllOutputs(commands);
 
   if (process.argv.includes('--check')) {
