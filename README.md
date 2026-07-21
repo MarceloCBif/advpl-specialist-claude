@@ -275,7 +275,7 @@ advpl-specialist/
 │   ├── doc-generator.md
 │   ├── changelog-generator.md
 │   └── sx-configurator.md
-├── commands/                      # 12 commands invocaveis
+├── commands/                      # 14 commands invocaveis
 │   ├── generate.md
 │   ├── migrate.md
 │   ├── diagnose.md
@@ -287,12 +287,14 @@ advpl-specialist/
 │   ├── refactor.md
 │   ├── document.md
 │   ├── changelog.md
-│   └── sxgen.md
+│   ├── sxgen.md
+│   ├── advpr.md
+│   └── smartx.md
 ├── skills/                        # 18 referencias internas (reference.md + supporting files)
 │   ├── advpl-code-generation/     # Padroes MVC, REST, SOAP, PE, TReport, FWFormBrowse, Jobs, Workflow
 │   ├── advpl-to-tlpp-migration/   # Regras e checklist de migracao
 │   ├── advpl-debugging/           # Erros comuns e performance
-│   ├── advpl-code-review/         # 24 regras de revisao de codigo
+│   ├── advpl-code-review/         # 26 regras de revisao + catalogo SonarQube (44 codigos)
 │   ├── probat-testing/            # Testes unitarios ProBat (TLPP)
 │   ├── advpr-test-automation/     # Automacao de testes ADVPR: FWTestHelper, MVC, ExecAuto, relatorios, webservice, SmartLink, Smart View
 │   ├── smartx-development/        # Smart X: modelo/interface/launcher, conversao de browse, PEs, migracao
@@ -305,7 +307,7 @@ advpl-specialist/
 │   ├── advpl-refactoring/         # 6 padroes de refatoracao com before/after
 │   ├── documentation-patterns/    # Templates Protheus.doc, documentacao completa, API
 │   ├── changelog-patterns/        # Tipos de mudanca, impacto, formatos
-│   ├── sx-configuration/          # Dicionario SX3/SIX/SX1/SX5/SX7 completo
+│   ├── sx-configuration/          # Dicionario SX2/SX3/SIX/SXG/SXA/SX1/SX5/SXB/SX7 completo
 │   └── tdn-lookup/                # Busca online no TDN via API Confluence
 ├── hooks/                         # SessionStart hook
 │   ├── hooks.json
@@ -325,7 +327,7 @@ O plugin inclui referencia local para consulta rapida:
 - **190+ funcoes nativas** documentadas com sintaxe, parametros e exemplos
 - **10 funcoes FW*** de gestao de empresa/filial (FWCodFil, FWCodEmp, FWFilial, FWCompany, etc.)
 - **195+ funcoes restritas** da TOTVS catalogadas com alternativas documentadas
-- **9 tabelas SX** (SX1-SX9, SIX) com campos e uso programatico
+- **9 tabelas SX** (SX1-SX9, SIX) com campos e uso programatico, e geracao de scripts para SX2/SX3/SIX/SXG/SXA/SX1/SX5/SXB/SX7
 - **REST API patterns** completos para WsRestFul e TLPP annotations
 - **50 erros comuns** com causa e solucao
 - **10 categorias de otimizacao** de performance com before/after
