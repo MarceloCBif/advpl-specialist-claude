@@ -85,6 +85,16 @@ jobs:
 
           echo "$UPDATED" > /tmp/history.json
 
+          # Upsert dos buckets diarios da janela de 14 dias no mapa top-level "days".
+          # A API de trafego so fecha o bucket de um dia no dia seguinte; ao regravar os
+          # 14 buckets a cada execucao, valores parciais de "hoje" sao corrigidos amanha.
+          DAYS=$(jq -n --argjson v "$VIEWS" --argjson c "$CLONES" '
+            reduce ($v.views[]?) as $b ({}; .[$b.timestamp[0:10]] += {views: $b.count, views_unique: $b.uniques})
+            | reduce ($c.clones[]?) as $b (.; .[$b.timestamp[0:10]] += {clones: $b.count, clones_unique: $b.uniques})')
+          UPDATED=$(jq --argjson days "$DAYS" '.days = ((.days // {}) + $days)' /tmp/history.json)
+
+          echo "$UPDATED" > /tmp/history.json
+
           # Atualizar gist
           gh gist edit "$GIST_ID" --filename traffic-history.json /tmp/history.json
 
