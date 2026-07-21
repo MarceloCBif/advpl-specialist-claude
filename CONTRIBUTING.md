@@ -63,6 +63,27 @@ git clone https://github.com/thalysjuvenal/advpl-specialist.git
 claude --plugin-dir ./advpl-specialist
 ```
 
+## Runbook de release
+
+Passos para publicar uma nova versao (executados pelo mantenedor, mas documentados para qualquer co-mantenedor futuro):
+
+1. **Alinhar a versao em 6 pontos** (o CI valida): `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` (raiz e `plugins[0]`), `documentation/app/page.tsx` (`PLUGIN_VERSION`), badge de versao do `README.md` e badge de `documentation/content/docs/index.mdx`.
+2. **Atualizar changelogs**: `CHANGELOG.md` (bilingue EN/PT, padrao Keep a Changelog) e `documentation/content/docs/changelog.mdx` (pt-BR).
+3. **Validar localmente**:
+   - `node scripts/build-ai-commands.mjs --check` — 42 saidas em sincronia com `ai-commands/src/`
+   - `npx skills add ./ --list` — 18 skills descobertas
+   - `cd documentation && npm run build` — site compila sem erros
+4. **Commit e merge**: commits convencionais em branch de feature, merge fast-forward na `main`, push (o workflow `validate-plugin.yml` revalida tudo no CI).
+5. **Release no GitHub**: `gh release create vX.Y.Z --title "..." --notes "..."` com notas derivadas do `CHANGELOG.md`. A release mais recente deve ficar marcada como Latest.
+6. **Pos-release**: conferir `npx skills add thalysjuvenal/advpl-specialist --list` (descoberta remota) e a pagina https://skills.sh/thalysjuvenal/advpl-specialist.
+
+## Decisoes de arquitetura
+
+Decisoes ja tomadas — nao reabrir sem motivo novo:
+
+- **Sem agents dedicados para `/advpr` e `/smartx` (jul/2026).** Esses comandos reutilizam o agent `code-generator` de proposito: as skills `advpr-test-automation` e `smartx-development` ja concentram todo o conhecimento, e um agent proprio seria uma terceira camada sobre o mesmo conteudo — contra o principio de fonte unica — com valor apenas dentro do Claude Code.
+- **`reference.md` + `SKILL.md` coexistem em cada skill.** `reference.md` e a base de conhecimento completa (lida por commands e agents do Claude Code); `SKILL.md` e a porta de entrada fina para outros agentes (Copilot, Cursor, Gemini, Codex via skills.sh). O `SKILL.md` nunca duplica conteudo — apenas descreve a skill e aponta para os arquivos de referencia.
+
 ## Licenca
 
 Ao contribuir, voce concorda que suas contribuicoes serao licenciadas sob a [MIT License](LICENSE).
