@@ -6,6 +6,12 @@ Todas as mudancas notaveis deste projeto serao documentadas neste arquivo.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-07-21
+
+### Added / Adicionado
+- Multi-AI portable layer: all 18 knowledge bases now ship a thin `SKILL.md` and are installable in GitHub Copilot, Cursor, Gemini CLI, Codex, OpenCode and 70+ agents via `npx skills add thalysjuvenal/advpl-specialist` (listed on skills.sh); distributable instruction templates `AGENTS.md`, `.github/copilot-instructions.md` and `CLAUDE.md` (copy to your Protheus repo); the 14 commands compiled to `.github/prompts/` (Copilot, `agent: agent`), `.cursor/commands/` (Cursor) and `.gemini/commands/` (Gemini CLI) from the canonical source `ai-commands/src/` by `scripts/build-ai-commands.mjs`, with a drift check in CI; new "Outras IAs" docs page and README section.
+- Camada portavel multi-IA: as 18 bases de conhecimento agora trazem um `SKILL.md` fino e sao instalaveis no GitHub Copilot, Cursor, Gemini CLI, Codex, OpenCode e 70+ agentes via `npx skills add thalysjuvenal/advpl-specialist` (listado no skills.sh); templates distribuiveis `AGENTS.md`, `.github/copilot-instructions.md` e `CLAUDE.md` (copie para o seu repositorio Protheus); os 14 comandos compilados para `.github/prompts/` (Copilot, `agent: agent`), `.cursor/commands/` (Cursor) e `.gemini/commands/` (Gemini CLI) a partir da fonte canonica `ai-commands/src/` pelo `scripts/build-ai-commands.mjs`, com verificacao de drift no CI; nova pagina "Outras IAs" na documentacao e secao no README.
+
 ## [1.4.0] - 2026-07-17
 
 ### Added / Adicionado
