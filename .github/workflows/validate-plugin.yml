@@ -198,3 +198,6 @@ jobs:
           grep -q "font-bold\">$AG<" documentation/app/page.tsx || { echo "page.tsx: card Agentes != $AG"; fail=1; }
           grep -q "font-bold\">$SK<" documentation/app/page.tsx || { echo "page.tsx: card Skills != $SK"; fail=1; }
           exit $fail
+
+      - name: Markdown lint (ruleset minimo)
+        run: npx -y markdownlint-cli2@0.23.1 "**/*.md"

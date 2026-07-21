@@ -1,0 +1,27 @@
+{
+  // Ruleset minimo e de baixo ruido: higiene de whitespace e links.
+  // Regras estruturais/estilisticas (line-length, heading-style, etc.) ficam
+  // desativadas de proposito — o conteudo das skills usa tabelas largas e
+  // blocos longos por design. Ver issue #15.
+  "config": {
+    "default": false,
+    "MD009": true, // no-trailing-spaces
+    "MD010": true, // no-hard-tabs
+    "MD011": true, // no-reversed-links
+    "MD018": true, // no-missing-space-atx
+    "MD042": true  // no-empty-links
+  },
+  "ignores": [
+    ".git",
+    "node_modules",
+    "**/node_modules",
+    "documentation/.next",
+    "documentation/out",
+    "totvs",
+    "docs",
+    ".superpowers",
+    ".github/prompts",
+    ".cursor",
+    ".gemini"
+  ]
+}
