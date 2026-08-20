@@ -6,6 +6,18 @@ Todas as mudancas notaveis deste projeto serao documentadas neste arquivo.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2026-08-19
+
+### Added / Adicionado
+- CI now validates the documented counts (commands, agents, skills) against the real repository — README tree and per-command presence, docs-site numbers table, `og:description` and home cards — plus a low-noise markdown lint (trailing spaces, hard tabs, reversed/empty links). CONTRIBUTING gains a release runbook and a recorded-architecture-decisions section.
+- O CI agora valida as contagens documentadas (comandos, agentes, skills) contra o repositorio real — arvore do README e presenca de cada comando, tabela de numeros do site, `og:description` e cards da home — alem de lint de markdown de baixo ruido (espacos ao final, tabs, links invertidos/vazios). O CONTRIBUTING ganha runbook de release e secao de decisoes de arquitetura registradas.
+
+### Fixed / Corrigido
+- `scripts/build-ai-commands.mjs`: Windows portability (`fileURLToPath` instead of `URL.pathname`), CRLF normalization on sources and outputs (no false drift on autocrlf checkouts) and a friendly error message for invalid canonical sources.
+- Documentation drift: README tree now lists 14 commands (including `advpr.md` and `smartx.md`), review coverage corrected to 26 rules plus the 44-code SonarQube catalog, SX dictionary coverage updated (SX2/SXG/SXA/SXB), site counts fixed to 14/10/18, and the multi-AI layer is now linked from the docs home and installation pages ("Opcao 3: Outras IAs").
+- `scripts/build-ai-commands.mjs`: portabilidade Windows (`fileURLToPath` no lugar de `URL.pathname`), normalizacao de CRLF em fontes e saidas (sem drift falso em checkouts com autocrlf) e mensagem de erro amigavel para fontes canonicas invalidas.
+- Drift documental: arvore do README lista os 14 comandos (incluindo `advpr.md` e `smartx.md`), cobertura de revisao corrigida para 26 regras mais o catalogo SonarQube de 44 codigos, cobertura do dicionario SX atualizada (SX2/SXG/SXA/SXB), contagens do site corrigidas para 14/10/18, e a camada multi-IA agora tem links na home e na pagina de instalacao da documentacao ("Opcao 3: Outras IAs").
+
 ## [1.5.0] - 2026-07-21
 
 ### Added / Adicionado

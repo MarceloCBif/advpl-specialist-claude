@@ -8,6 +8,17 @@ Todas as mudancas notaveis deste projeto sao documentadas neste arquivo.
 O formato e baseado no [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 e este projeto segue o [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2026-08-19
+
+### Adicionado
+
+- CI valida as contagens documentadas (comandos, agentes, skills) contra o repositorio real (README + site) e ganha lint de markdown de baixo ruido; CONTRIBUTING com runbook de release e decisoes de arquitetura registradas.
+
+### Corrigido
+
+- `scripts/build-ai-commands.mjs`: portabilidade Windows (`fileURLToPath`), normalizacao de CRLF (sem drift falso com autocrlf) e erro amigavel para fontes invalidas.
+- Drift documental: arvore do README com os 14 comandos (incluindo `advpr.md` e `smartx.md`), revisao corrigida para 26 regras + catalogo SonarQube de 44 codigos, dicionario SX atualizado (SX2/SXG/SXA/SXB), contagens do site em 14/10/18 e camada multi-IA linkada na home e na instalacao.
+
 ## [1.5.0] - 2026-07-21
 
 ### Adicionado
