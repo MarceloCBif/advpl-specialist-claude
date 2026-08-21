@@ -2,6 +2,7 @@ import { RootProvider } from 'fumadocs-ui/provider/next';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Script from 'next/script';
+import CustomSearchDialog from '@/components/search-dialog';
 import './global.css';
 
 export const metadata: Metadata = {
@@ -63,10 +64,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             defaultTheme: 'dark',
           }}
           search={{
-            options: {
-              type: 'static',
-              api: '/advpl-specialist/api/search',
-            },
+            SearchDialog: CustomSearchDialog,
           }}
           i18n={{
             locale: 'pt-BR',
